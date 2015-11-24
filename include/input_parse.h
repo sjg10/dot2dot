@@ -1,3 +1,6 @@
+#ifndef INPUT_PARSE_H
+#define INPUT_PARSE_H
+
 #include <fstream>
 using namespace std;
 
@@ -16,3 +19,4 @@ class InputContext
 void print_usage(string program_name);
 bool parse_input(InputContext * input_context, int argc, char ** argv);
 
+#endif //INPUT_PARSE_H
