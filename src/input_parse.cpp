@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <fstream>
 #include "input_parse.h"
 using namespace std;
 
@@ -16,7 +17,7 @@ void print_usage(string program_name)
 bool parse_input(InputContext * input_context, int argc, char ** argv)
 {
     string temp;
-    char * filename = NULL;
+    string filename;
     int dot_limit = 0;
 
     bool retval = false;
@@ -47,9 +48,9 @@ bool parse_input(InputContext * input_context, int argc, char ** argv)
         }
         else
         {
-            if (filename == NULL)
+            if (filename.empty())
             {
-                filename = argv[i];
+                filename = string(argv[i]);
                 retval = true;
             }
             else
@@ -70,7 +71,8 @@ bool parse_input(InputContext * input_context, int argc, char ** argv)
         }
         else
         {
-            *input_context = InputContext(f, dot_limit);
+            f->close();
+            *input_context = InputContext(filename, dot_limit);
         }
     }
     else
