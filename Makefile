@@ -1,9 +1,19 @@
 # Compiler definitions
 CPP = g++
-CPPFLAGS = -c -std=c++11 -Wall $(addprefix -D,$(DEFINES)) -I$(INCLUDE_DIR) $(MAKEFILE_DEPS_FLAGS-) -g
+
+# Flags for opencv
+CVCPPFLAGS = $(shell pkg-config --cflags opencv)
+CVLDLIBS = $(shell pkg-config --libs opencv)
+#Check some were found i.e. opencv is installed.
+ifeq ($(strip $(CVCPPFLAGS)),)
+$(error No copy of opencv found by pkg-config. Please install from opencv.org)
+endif
+
+
+CPPFLAGS = -c -std=c++11 -Wall $(CVCPPFLAGS) $(addprefix -D,$(DEFINES)) -I$(INCLUDE_DIR) $(MAKEFILE_DEPS_FLAGS-) -g
 MAKEFILE_DEPS_FLAGS = -MMD -MP
 DEFINES =
-LDFLAGS = -lm
+LDFLAGS = -lm $(CVLDLIBS)
 
 # Helper programs
 MKDIR_P = mkdir -p
