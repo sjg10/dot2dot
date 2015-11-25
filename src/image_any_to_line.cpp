@@ -36,7 +36,7 @@ vector<vector<cv::Point>> image_cannied_to_image_contours(cv::Mat cannied)
 
 vector<vector<cv::Point>> image_contours_to_image_polygons(vector<vector<cv::Point>> contours)
 {
-    vector<vector<cv::Point>> polygons; //TODO: does this need to be initialised?
+    vector<vector<cv::Point>> polygons(contours.size());
     for( unsigned int i = 0; i < contours.size(); i++ )
     {
         double epsilon = 0.1 * cv::arcLength(contours[i], true); //TODO: is this an appropriate epsilon? Does it depend on dot limit?
