@@ -34,6 +34,17 @@ vector<vector<cv::Point>> image_cannied_to_image_contours(cv::Mat cannied)
     return contours;
 }
 
+vector<vector<cv::Point>> image_contours_to_image_polygons(vector<vector<cv::Point>> contours)
+{
+    vector<vector<cv::Point>> polygons; //TODO: does this need to be initialised?
+    for( unsigned int i = 0; i < contours.size(); i++ )
+    {
+        double epsilon = 0.1 * cv::arcLength(contours[i], true); //TODO: is this an appropriate epsilon? Does it depend on dot limit?
+        cv::approxPolyDP(contours[i], polygons[i], epsilon, false); //TODO: should this be close/open (true/false)
+    }
+    return polygons;
+}
+
 void debug_display_cannied(cv::Mat cannied)
 {
     /// Display image
@@ -63,7 +74,7 @@ void debug_display_contours(cv::Mat src, vector<vector<cv::Point>> contours)
 bool image_any_to_line(string input_filename)
 {
     cv::Mat src, cannied;
-    vector<vector<cv::Point>> contours;
+    vector<vector<cv::Point>> contours, polygons;
     
     /// Load an image
     src = cv::imread(input_filename);
@@ -81,7 +92,10 @@ bool image_any_to_line(string input_filename)
     contours = image_cannied_to_image_contours(cannied);
     debug_display_contours(src, contours);
 
-    //TODO: reduce number of dots, connect contours
+    polygons = image_contours_to_image_polygons(contours);
+    debug_display_contours(src, polygons);
+
+    //TODO: connect the polygons, produce image of corners, number them
 
     return true;
 }
