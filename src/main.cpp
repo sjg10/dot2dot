@@ -28,6 +28,6 @@ int main(int argc, char ** argv)
         // approximate contours with lines
         // begin dot2dot-ification
     }
-    //delete(g_input_context); //TODO: free cleanly...why wont it delete?
+    delete(g_input_context); //TODO: free cleanly...why wont it delete?
     return retval;
 }
